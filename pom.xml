@@ -2,16 +2,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.github.venkatramanm.swf-all</groupId>
-    <artifactId>swf-all</artifactId>
-    <version>2.2</version>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
   </parent>
-  <artifactId>swf-plugin-wiki</artifactId>
-  <name>swf-plugin-wiki</name>
-  <description>swf-plugin-wiki</description>
-  <version>2.3-SNAPSHOT</version>
 
-  <url>http://maven.apache.org</url>
+  <build>
+	<pluginManagement>
+	  <plugins>
+	    <plugin>
+	      <groupId>org.eclipse.m2e</groupId>
+	      <artifactId>lifecycle-mapping</artifactId>
+	      <version>1.0.0</version>
+	      <configuration>
+	        <lifecycleMappingMetadata>
+	          <pluginExecutions>
+	            <pluginExecution>
+	              <pluginExecutionFilter>
+                  <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-enforcer-plugin</artifactId>
+	                <versionRange>[1.0.0,)</versionRange>
+	                <goals>
+	                  <goal>enforce</goal>
+	                </goals>
+	              </pluginExecutionFilter>
+	              <action>
+	                <ignore />
+	              </action>
+	            </pluginExecution>
+	          </pluginExecutions>
+	        </lifecycleMappingMetadata>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</pluginManagement>
+  </build>
+
+  <artifactId>swf-plugin-wiki</artifactId>
+  <name>Succinct Wiki</name>
+  <description>Succinct Wiki Plugin</description>
+  <version>2.3-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <url>http://github.com/venkatramanm/swf-plugin-wiki</url>
+
   <licenses>
     <license>
       <name>MIT</name>
