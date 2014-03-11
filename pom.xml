@@ -38,11 +38,13 @@
 	</pluginManagement>
   </build>
 
+  <groupId>com.github.venkatramanm.swf-all</groupId>
   <artifactId>swf-plugin-wiki</artifactId>
   <name>Succinct Wiki</name>
   <description>Succinct Wiki Plugin</description>
   <version>2.3-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <url>http://github.com/venkatramanm/swf-plugin-wiki</url>
 
   <licenses>
