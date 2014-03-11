@@ -42,7 +42,7 @@
   <artifactId>swf-plugin-wiki</artifactId>
   <name>Succinct Wiki</name>
   <description>Succinct Wiki Plugin</description>
-  <version>2.3</version>
+  <version>2.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <url>http://github.com/venkatramanm/swf-plugin-wiki</url>
@@ -79,12 +79,12 @@
   	<dependency>
         <groupId>${project.groupId}</groupId>
   		  <artifactId>swf</artifactId>
-        <version>[2.2,)</version>
+        <version>${project.parent.version}</version>
   	</dependency>
   	<dependency>
         <groupId>${project.groupId}</groupId>
   		  <artifactId>swf-plugin-collab</artifactId>
-        <version>[2.2,)</version>
+        <version>${project.parent.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.pegdown</groupId>
