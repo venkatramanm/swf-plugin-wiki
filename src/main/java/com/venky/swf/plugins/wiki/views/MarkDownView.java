@@ -10,12 +10,12 @@ import com.venky.swf.views.HtmlView;
 import com.venky.swf.views.controls.Control;
 import com.venky.swf.views.controls._IControl;
 import com.venky.swf.views.controls.page.HotLink;
-import com.venky.swf.views.controls.page.Image;
 import com.venky.swf.views.controls.page.layout.Div;
-import com.venky.swf.views.controls.page.layout.Table;
-import com.venky.swf.views.controls.page.layout.Table.Column;
-import com.venky.swf.views.controls.page.layout.Table.Row;
-import com.venky.swf.views.controls.page.text.Label;
+import com.venky.swf.views.controls.page.layout.FluidTable;
+import com.venky.swf.views.controls.page.layout.Glyphicon;
+import com.venky.swf.views.controls.page.layout.Panel;
+import com.venky.swf.views.controls.page.layout.Panel.PanelHeading;
+import com.venky.swf.views.controls.page.layout.headings.H;
 import com.venky.swf.views.model.ModelListView;
 
 public class MarkDownView extends HtmlView{
@@ -28,27 +28,18 @@ public class MarkDownView extends HtmlView{
 
 	@Override
 	protected void createBody(_IControl b) {
-    	Table container = new Table();
-    	container.addClass("hfill");
+    	FluidTable container = new FluidTable(1);
     	b.addControl(container);
-    	
-    	Row header = container.createHeader();
-    	Column headerColumn = header.createColumn(2);
-    	headerColumn.addControl(new Label(page.getTitle()));
+    	H h3 = new H(3);
+    	h3.setText(page.getTitle());
+    	container.addControl(h3);
 
-    	Row searchFormRow = container.createRow();
-		Column searchFormCell = searchFormRow.createColumn();
-		searchFormCell.addControl(createSearchForm(page));
-		searchFormRow.createColumn();
+    	container.addControl(createSearchForm(page));
     	
     	
-    	Row rowContainingDiv = container.createRow();
-    	Column columnContainingDiv = rowContainingDiv.createColumn(2);
-
-		
 		Div markdown = new Div();
 		markdown.addClass("markdown");
-		columnContainingDiv.addControl(markdown);
+		container.addControl(markdown);
 		PegDownProcessor p = new PegDownProcessor();
 		String html = p.markdownToHtml(StringUtil.read(page.getBody()));
 		markdown.setText(html);
@@ -56,7 +47,12 @@ public class MarkDownView extends HtmlView{
 	}
 
 	private Control createSearchForm(Page page){
-		return ModelListView.createSearchForm(getPath());
+		Panel contentPanel = new Panel();
+    	PanelHeading headingPanel = contentPanel.createPanelHeading(); 
+    	headingPanel.setTitle("Search");
+    	
+		ModelListView.createSearchForm(getPath(),headingPanel);
+		return contentPanel;
     }
     
     private SequenceSet<HotLink> links = null; 
@@ -68,14 +64,14 @@ public class MarkDownView extends HtmlView{
 			if (getPath().canAccessControllerAction("edit",String.valueOf(page.getId()))){
 				HotLink edit = new HotLink();
 				edit.setUrl(getPath().controllerPath()+"/edit/"+page.getId());
-				edit.addControl(new Image("/resources/images/edit.png","Edit Page"));
+				edit.addControl(new Glyphicon("glyphicon-edit","Edit Page"));
             	links.add(edit);
 			}
 			
 			if (getPath().canAccessControllerAction("blank",String.valueOf(page.getId()))){
             	HotLink create = new HotLink();
                 create.setUrl(getPath().controllerPath()+"/blank");
-                create.addControl(new Image("/resources/images/blank.png","New Page"));
+                create.addControl(new Glyphicon("glyphicon-plus","New Page"));
             	links.add(create);
 			}
 			

@@ -39,7 +39,8 @@ public class PagesController extends ModelController<Page>{
 	}
 
 	public View index(){ 
-		return super.list(getLandingPages());
+		List<Page> pages = getLandingPages();
+		return super.list(pages,pages.size() < MAX_LIST_RECORDS);
 	}
 	
 	public View show(String title){
@@ -72,7 +73,8 @@ public class PagesController extends ModelController<Page>{
 					return blank(page);
 				}
 			}else {
-				return list(findAllByTitle(title));
+				pages = findAllByTitle(title);
+				return list(pages,true);
 			}
 		}
 	}
@@ -137,23 +139,23 @@ public class PagesController extends ModelController<Page>{
 	}
 	
 	@Override
-    protected View constructModelListView(List<Page> records){
+    protected View constructModelListView(List<Page> records,boolean isCompleteList){
 		if (records.size() > 1){
-			return new PageListView(getPath(), records);
+			return new PageListView(getPath(), records,isCompleteList);
 		}else if (records.size() == 1){
 			return redirectTo("view/"+records.get(0).getId()); 
 		}else {
 			if (getPath().canAccessControllerAction("save")){
 				return redirectTo("blank");
 			}else {
-				return new PageListView(getPath(), records);
+				return new PageListView(getPath(), records,isCompleteList);
 			}
 		}
 	}
     
     public class PageListView extends ModelListView<Page>{
-		public PageListView(Path path, List<Page> records) {
-			super(path, null, records);
+		public PageListView(Path path, List<Page> records,boolean isCompleteList) {
+			super(path, null, records,isCompleteList);
 			getIncludedFields().remove("BODY");
 		}
     }
