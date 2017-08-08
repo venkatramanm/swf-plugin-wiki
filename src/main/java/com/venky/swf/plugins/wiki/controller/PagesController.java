@@ -15,6 +15,7 @@ import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.exceptions.AccessDeniedException;
 import com.venky.swf.path.Path;
 import com.venky.swf.plugins.collab.db.model.user.User;
+import com.venky.swf.plugins.collab.db.model.user.UserCompany;
 import com.venky.swf.plugins.wiki.db.model.Page;
 import com.venky.swf.plugins.wiki.views.MarkDownView;
 import com.venky.swf.sql.Conjunction;
@@ -100,7 +101,10 @@ public class PagesController extends ModelController<Page>{
 	private Page newPage(){
 		Page page = Database.getTable(Page.class).newRecord();
 		User user = getSessionUser();
-		page.setCompanyId(user.getCompanyId());
+		List<UserCompany> userCompanies = user.getUserCompanies(); 
+		if (userCompanies.size() > 0) {
+			page.setCompanyId(userCompanies.get(0).getCompanyId());
+		}
 		return page;
 	}
 	
