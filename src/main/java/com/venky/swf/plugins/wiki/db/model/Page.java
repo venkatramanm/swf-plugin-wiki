@@ -3,6 +3,7 @@ package com.venky.swf.plugins.wiki.db.model;
 import java.io.Reader;
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.CLONING_PROTECT;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
@@ -18,6 +19,7 @@ public interface Page extends Model,CompanySpecific{
 	@Index
 	@WATERMARK("Untitled")
 	@CLONING_PROTECT
+	@UNIQUE_KEY
 	public String getTitle();
 	public void setTitle(String title);
 	
@@ -39,5 +41,12 @@ public interface Page extends Model,CompanySpecific{
 	@CLONING_PROTECT
 	public boolean isLandingPage();
 	public void setLandingPage(boolean landingPage);
-	
+
+	@WATERMARK("Css file")
+	public String getCss();
+	public void setCss(String cssFile);
+
+	@WATERMARK("js file")
+	public String getJs();
+	public void setJs(String jsFile);
 }

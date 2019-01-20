@@ -39,11 +39,9 @@
 	</pluginManagement>
   </build>
 
-  <groupId>com.github.venkatramanm.swf-all</groupId>
   <artifactId>swf-plugin-wiki</artifactId>
   <name>Succinct Wiki</name>
   <description>Succinct Wiki Plugin</description>
-  <version>2.5-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <url>http://github.com/venkatramanm/swf-plugin-wiki</url>
@@ -85,12 +83,12 @@
   	<dependency>
   		<groupId>com.github.venkatramanm.swf-all</groupId>
   		<artifactId>swf</artifactId>
-  		<version>2.4-SNAPSHOT</version>
+        <version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>com.github.venkatramanm.swf-all</groupId>
   		<artifactId>swf-plugin-collab</artifactId>
-  		<version>2.4-SNAPSHOT</version>
+        <version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>

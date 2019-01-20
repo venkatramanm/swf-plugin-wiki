@@ -1,22 +1,25 @@
 package com.venky.swf.plugins.wiki.views;
 
-import org.pegdown.PegDownProcessor;
-
 import com.venky.core.collections.SequenceSet;
 import com.venky.core.string.StringUtil;
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.path._IPath;
 import com.venky.swf.plugins.wiki.db.model.Page;
 import com.venky.swf.views.HtmlView;
 import com.venky.swf.views.controls.Control;
 import com.venky.swf.views.controls._IControl;
+import com.venky.swf.views.controls.page.Css;
+import com.venky.swf.views.controls.page.Head;
 import com.venky.swf.views.controls.page.HotLink;
+import com.venky.swf.views.controls.page.Script;
 import com.venky.swf.views.controls.page.layout.Div;
 import com.venky.swf.views.controls.page.layout.FluidTable;
 import com.venky.swf.views.controls.page.layout.Glyphicon;
 import com.venky.swf.views.controls.page.layout.Panel;
 import com.venky.swf.views.controls.page.layout.Panel.PanelHeading;
-import com.venky.swf.views.controls.page.layout.headings.H;
 import com.venky.swf.views.model.ModelListView;
+import org.pegdown.PegDownProcessor;
+
 
 public class MarkDownView extends HtmlView{
 	Page page; 
@@ -30,12 +33,14 @@ public class MarkDownView extends HtmlView{
 	protected void createBody(_IControl b) {
     	FluidTable container = new FluidTable(1);
     	b.addControl(container);
-    	H h3 = new H(3);
-    	h3.setText(page.getTitle());
-    	container.addControl(h3);
 
-    	container.addControl(createSearchForm(page));
-    	
+
+
+		Control search = createSearchForm(page);
+    	if (search != null){
+			container.addControl(search);
+		}
+
     	
 		Div markdown = new Div();
 		markdown.addClass("markdown");
@@ -45,8 +50,28 @@ public class MarkDownView extends HtmlView{
 		markdown.setText(html);
 		
 	}
+	@Override
+	protected void createHead(Head head){
+		super.createHead(head);
+		head.addControl(new Script("/resources/scripts/syntaxhighlighter/js/shCore.js"));
+		head.addControl(new Script("/resources/scripts/syntaxhighlighter/js/shBrushJava.js"));
+		head.addControl(new Css("/resources/scripts/syntaxhighlighter/css/shCoreDefault.css"));
+		head.addControl(new Script("/resources/scripts/swf/js/sh.js"));
 
-	private Control createSearchForm(Page page){
+		if (!ObjectUtil.isVoid(page.getCss())){
+			head.addControl(new Css(page.getCss()));
+		}
+		if (!ObjectUtil.isVoid(page.getJs())){
+			head.addControl(new Script(page.getJs()));
+		}
+		if (!ObjectUtil.isVoid(page.getTitle())){
+			Control title = new Control ("title");
+			title.setText(page.getTitle());
+			head.addControl(title);
+		}
+	}
+
+	protected Control createSearchForm(Page page){
 		Panel contentPanel = new Panel();
     	PanelHeading headingPanel = contentPanel.createPanelHeading(); 
     	headingPanel.setTitle("Search");

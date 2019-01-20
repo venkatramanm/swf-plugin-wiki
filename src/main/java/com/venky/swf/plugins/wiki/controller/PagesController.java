@@ -22,6 +22,7 @@ import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import com.venky.swf.views.HtmlView;
 import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import com.venky.swf.views.model.ModelListView;
@@ -48,7 +49,7 @@ public class PagesController extends ModelController<Page>{
 		return view(title);
 	}
 
-    public View show(int id){
+    public View show(long id){
 		return view(id);
 	}
 	
@@ -85,19 +86,23 @@ public class PagesController extends ModelController<Page>{
 		return blank(page);
 	}
 	
-	public View view(int id){
+	public View view(long id){
 		Page page = Database.getTable(Page.class).get(id);
 		return view(page);
 	}
 	
-	private View view(Page page){
+	protected View view(Page page){
 		if (page.isAccessibleBy(getSessionUser())){
-			return dashboard(new MarkDownView(getPath(), page));
+			return dashboard(createMarkdownView(getPath(),page));
 		}else {
 			throw new AccessDeniedException();
 		}
 	}
-	
+
+	protected HtmlView createMarkdownView(Path path, Page page) {
+		return new MarkDownView(getPath(), page);
+	}
+
 	private Page newPage(){
 		Page page = Database.getTable(Page.class).newRecord();
 		User user = getSessionUser();
