@@ -10,6 +10,7 @@ import java.util.Map;
 import com.venky.core.string.StringUtil;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.controller.ModelController;
+import com.venky.swf.controller.annotations.RequireLogin;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.exceptions.AccessDeniedException;
@@ -52,7 +53,8 @@ public class PagesController extends ModelController<Page>{
     public View show(long id){
 		return view(id);
 	}
-	
+
+	@RequireLogin(false)
 	public View view(String title){
 		try {
 			int id = Integer.valueOf(title);
