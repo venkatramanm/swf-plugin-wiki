@@ -32,8 +32,7 @@ public interface Page extends Model,CompanySpecific{
 	@CONTENT_TYPE(MimeType.TEXT_MARKDOWN)
 	@Index
 	@WATERMARK("Enter your markdown text here...")
-	@CLONING_PROTECT
-	public Reader getBody(); 
+	public Reader getBody();
 	public void setBody(Reader reader);
 	
 	
