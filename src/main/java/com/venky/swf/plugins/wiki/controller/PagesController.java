@@ -1,12 +1,5 @@
 package com.venky.swf.plugins.wiki.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
 import com.venky.core.string.StringUtil;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.controller.ModelController;
@@ -16,7 +9,6 @@ import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.exceptions.AccessDeniedException;
 import com.venky.swf.path.Path;
 import com.venky.swf.plugins.collab.db.model.user.User;
-import com.venky.swf.plugins.collab.db.model.user.UserCompany;
 import com.venky.swf.plugins.wiki.db.model.Page;
 import com.venky.swf.plugins.wiki.views.MarkDownView;
 import com.venky.swf.sql.Conjunction;
@@ -27,6 +19,13 @@ import com.venky.swf.views.HtmlView;
 import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import com.venky.swf.views.model.ModelListView;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 public class PagesController extends ModelController<Page>{
 
 	public PagesController(Path path) {
@@ -108,10 +107,7 @@ public class PagesController extends ModelController<Page>{
 	private Page newPage(){
 		Page page = Database.getTable(Page.class).newRecord();
 		User user = getSessionUser();
-		List<UserCompany> userCompanies = user.getUserCompanies(); 
-		if (userCompanies.size() > 0) {
-			page.setCompanyId(userCompanies.get(0).getCompanyId());
-		}
+		page.setCompanyId(user.getCompanyId());
 		return page;
 	}
 	
